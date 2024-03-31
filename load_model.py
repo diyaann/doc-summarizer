@@ -11,4 +11,5 @@ def load_Bedrock_model():
         "topP":1
     }
     llm = Bedrock (model_id=model_id,region_name='us-east-1',client= bedrock_runtime, model_kwargs=model_kwargs)
+    print("model loaded")
     return llm

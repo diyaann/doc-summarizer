@@ -3,7 +3,7 @@ import os
 import argparse
 
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+# from flask_cors import CORS
 
 from load_model import load_Bedrock_model
 from prompt_template import get_prompt_template
@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/api/summary", methods=["GET", "POST"])
+@app.route("/api/summary", methods=["GET"])
 def summary():
     global prompt
     username = request.args.get("username")
@@ -31,18 +31,16 @@ def summary():
     #         file_path = os.path.join(folder_path, file_name)
     #         if os.path.isfile(file_path):  
     #             docs = file_load(file_path)
+    print("called Summary")
     docs = file_load(username)
+    print("File loaded")
     prompt_full = prompt.format(context=docs)
     result = LLM(prompt_full)      
 
     prompt_response_dict = {
         "Summary": result,
+        "Sources" : docs
     }
-    prompt_response_dict["Sources"] = []
-    for document in docs:
-        prompt_response_dict["Sources"].append(
-            (os.path.basename(str(document.metadata["source"])))
-        )
     return jsonify(prompt_response_dict), 200
 
 

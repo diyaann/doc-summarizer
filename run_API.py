@@ -13,7 +13,7 @@ LLM = load_Bedrock_model()
 prompt = get_prompt_template()
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 
 
 @app.route("/api/summary", methods=["GET"])

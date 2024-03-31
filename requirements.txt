@@ -1,0 +1,4 @@
+langchain==0.0.267
+boto3==1.33.13
+flask==2.2.5
+flask_cors==4.0.0 

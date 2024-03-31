@@ -33,16 +33,19 @@ def file_load(username):
         Bucket= bucket_name,
         Prefix=f'{username}/'
     )
+    print("Bucket initialized")
     if 'Contents' in response:
         if len(response['Contents']) == 1:
             key = response['Contents'][0]['Key']
             
             file_extension = os.path.splitext(key)
             loader_class = DOCUMENT_MAP.get(file_extension)
+            print(file_extension)
             obj = s3.get_object(Bucket=bucket_name, Key=key)["Body"].read()
-
+            print("Bucket fetched")
             if loader_class:
                 loader = loader_class(BytesIO(obj))
+                print("loader : ", loader)
             else:
                 raise ValueError("Document type is undefined")
 
